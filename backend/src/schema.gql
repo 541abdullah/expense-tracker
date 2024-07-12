@@ -1,0 +1,245 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type GroupTransaction {
+  transactionID: String!
+  transaction: String!
+  paymentType: String!
+  category: String!
+  Amount: Float!
+  location: String!
+  date: DateTime!
+  createdAt: DateTime
+  month: String!
+  group: Groups!
+  groupGroupID: String
+  groupMemberId: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Groups {
+  groupID: String!
+  groupName: String!
+  alive: Boolean!
+  memberName: String!
+  member: User!
+  memberId: String!
+  transactions: [GroupTransaction!]
+  members: [User!]!
+}
+
+type PersonalTransaction {
+  transactionID: String!
+  transaction: String!
+  paymentType: String!
+  category: String!
+  Amount: Float!
+  location: String!
+  date: DateTime!
+  createdAt: DateTime
+  month: String!
+  creator: User!
+  creatorId: String!
+}
+
+type User {
+  id: String!
+  personalUsername: String!
+  groups: [Groups!]
+  transactions: [PersonalTransaction!]
+  password: String!
+  avatar: String!
+  alive: Boolean!
+  allMyGroups: [Groups!]!
+  allMyTransactions: [PersonalTransaction!]!
+}
+
+type UserNoPassword {
+  id: String!
+  personalUsername: String!
+  avatar: String!
+}
+
+type UserDeletedObject {
+  result: String!
+}
+
+type StatObject {
+  PSaving: Float!
+  PInvestment: Float!
+  PExpense: Float!
+  PSavingPercentage: Float!
+  GSaving: Float!
+  GInvestment: Float!
+  GExpense: Float!
+  GSavingPercentage: Float!
+  ChartSaving: Float!
+  ChartInvestment: Float!
+  ChartExpense: Float!
+}
+
+type ChartObject {
+  Saving: Float!
+  Expense: Float!
+  Investment: Float!
+}
+
+type TransDeletionObject {
+  result: String!
+}
+
+type ChartGroupDetsObject {
+  Saving: Float!
+  Expense: Float!
+  Investment: Float!
+  SavingPercentage: Float!
+  ChartSaving: Float!
+  ChartInvestment: Float!
+  ChartExpense: Float!
+  TotalSaving: Float!
+  TotalExpense: Float!
+  TotalInvestment: Float!
+}
+
+type LoginStatus {
+  status: String!
+  user: User!
+}
+
+type LogoutStatus {
+  status: String!
+}
+
+type RefreshStatus {
+  status: String!
+}
+
+type Query {
+  users: [UserNoPassword!]!
+  user(id: String!): User!
+  me: User!
+  myStats(id: String!): StatObject!
+  filterMyTransactions(filterPersonalTransactionInput: FilterPersonalTransactionInput!): [PersonalTransaction!]!
+  findOne(id: String!): PersonalTransaction!
+  chartMyTransactions(id: String!): ChartObject!
+  chartGroupTransactions(id: String!): ChartObject!
+  groupTransactions(id: String!): [GroupTransaction!]!
+  findOneGtrans(id: String!): GroupTransaction!
+  chartdatagroupie(gid: String!, mid: String!): ChartGroupDetsObject!
+  filterGroupTransactions(filterGroupTransactionInput: FilterGroupTransactionInput!): [GroupTransaction!]!
+  getGdata(id: String!): [Groups!]!
+  groupMembers(id: String!): [Groups!]!
+  groupsStats(id: String!): Groups!
+  grouptotaldata(id: String!): [Groups!]!
+}
+
+input FilterPersonalTransactionInput {
+  creatorID: String!
+  month: String
+  year: Float
+}
+
+input FilterGroupTransactionInput {
+  groupid: String!
+  memberid: String
+  month: String
+  year: Float
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): UserNoPassword!
+  updateUser(updateUserInput: UpdateUserInput!): UserNoPassword!
+  deleteUser(id: String!): UserDeletedObject!
+  createPTransaction(createPersonalTransactionInput: CreatePersonalTransactionInput!): PersonalTransaction!
+  editPTransaction(updatePersonalTransactionInput: UpdatePersonalTransactionInput!): PersonalTransaction!
+  removePTransaction(id: String!): TransDeletionObject!
+  createTransaction(createGroupTransactionInput: CreateGroupTransactionInput!): GroupTransaction!
+  editGTransaction(updateGroupTransactionInput: UpdateGroupTransactionInput!): GroupTransaction!
+  removeGTransaction(id: String!): TransDeletionObject!
+  createMemberOfGroup(createGroupInput: CreateGroupInput!): Groups!
+  updateGroup(updateGroupInput: UpdateGroupInput!): Groups!
+  login(loginUserInput: LoginUserInput!): LoginStatus!
+  logout: LogoutStatus!
+  regen(refreshInput: RefreshInput!): RefreshStatus!
+}
+
+input CreateUserInput {
+  personalUsername: String!
+  avatar: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  username: String!
+  avatar: String
+}
+
+input CreatePersonalTransactionInput {
+  transaction: String!
+  paymentType: String!
+  category: String!
+  Amount: Float!
+  location: String!
+  date: DateTime!
+  creatorId: String!
+}
+
+input UpdatePersonalTransactionInput {
+  transactionID: String!
+  transaction: String
+  paymentType: String
+  category: String
+  Amount: Float
+  location: String
+  date: DateTime
+}
+
+input CreateGroupTransactionInput {
+  transaction: String!
+  paymentType: String!
+  category: String!
+  Amount: Float!
+  location: String!
+  date: DateTime!
+  groupGroupID: String!
+  groupMemberId: String!
+}
+
+input UpdateGroupTransactionInput {
+  transactionID: String!
+  transaction: String
+  paymentType: String
+  category: String
+  Amount: Float
+  location: String
+  date: DateTime
+}
+
+input CreateGroupInput {
+  groupID: String
+  groupName: String
+  memberName: String!
+  memberId: String!
+}
+
+input UpdateGroupInput {
+  groupID: String!
+  memberId: String
+  memberName: String
+  groupName: String
+}
+
+input LoginUserInput {
+  username: String!
+  password: String!
+}
+
+input RefreshInput {
+  username: String!
+  id: String!
+}
